@@ -1,4 +1,6 @@
 #define MAX 100
+#include <stdlib.h>
+#include <stdio.h>
 
 /* Estruturas do TAD LISTA_ENC_EST */
 struct nodo {
@@ -34,62 +36,58 @@ int tamanho (Lista *l) {
 
     while (ind != -1) {
         cont++;
-        ind = l->elementos[ind].next;
+        ind = l->elementos[ind].proximo;
     }
 
     return cont;
 }
 
-void ins (LISTA_ENC_EST *l, int pos, float val) {
-if (pos<1 || pos> tam(l)+1) {
-printf("\nPosicao invalida!");
-exit (1);
-} else {
-if (l->ind_nodo_livre != -1) {
-int aux;
-if (pos==1) {
-l->elementos[l->ind_nodo_livre].inf=val;
-aux=l->elementos[l->ind_nodo_livre].next;
-l->elementos[l->ind_nodo_livre].next=l-
-
->ind_pri_ele;
-
-l->ind_pri_ele=l->ind_nodo_livre;
-
-l->ind_nodo_livre=aux;
+void ins (Lista *l, int pos, float val) {
+	if (pos<1 || pos> tam(l)+1) {
+		printf("\nPosicao invalida!");
+		exit (1);
+	} else {
+	if (l->ind_nodo_livre != -1) {
+		int aux;
+		if (pos==1) {
+		l->elementos[l->ind_nodo_livre].info=val;
+		aux=l->elementos[l->ind_nodo_livre].proximo;
+		l->elementos[l->ind_nodo_livre].proximo=l->ind_pri_ele;
+		l->ind_pri_ele=l->ind_nodo_livre;
+		l->ind_nodo_livre=aux;
+		}
+			else {
+			int ind;
+			for (ind=l->ind_pri_ele; --pos-1; ind=l->elementos[ind].proximo);
+			l->elementos[l->ind_nodo_livre].info=val;
+			aux=l->elementos[l->ind_nodo_livre].proximo;
+			l->elementos[l->ind_nodo_livre].proximo=l->elementos[ind].proximo;
+			l->elementos[ind].proximo=l->ind_nodo_livre;
+			l->ind_nodo_livre=aux;
+			}
+	} else {
+		printf("\nImpossivel inserir novos elementos.\nMemoria insuficiente.");
+		exit (2); 
+		}
+	} 
 }
-else {
-int ind;
-for (ind=l->ind_pri_ele; --pos-1; ind=l-
 
->elementos[ind].next);
-
-l->elementos[l->ind_nodo_livre].inf=val;
-aux=l->elementos[l->ind_nodo_livre].next;
-l->elementos[l->ind_nodo_livre].next=l-
-
->elementos[ind].next;
-
-l->elementos[ind]..next=l->ind_nodo_livre;
-l->ind_nodo_livre=aux;
+float recup (Lista *l, int pos)
+{
+	if (pos<1 || pos> tam(l))
+	{
+		printf("\nPosicao invalida!");
+		exit (1);
+	}
+	else
+	{
+		int ind=l->ind_pri_ele;
+		while (--pos)
+			ind = l->elementos[ind].proximo;
+		return l->elementos[ind].info;
+	}
 }
-} else {
-printf("\nImpossivel inserir novos
-elementos.\nMemoria insuficiente.");
-exit (2); } } }
 
-float recup (LISTA_ENC_EST *l, int pos)
-{
-if (pos<1 || pos> tam(l))
-{
-printf("\nPosicao invalida!");
-exit (1);
-}
-else
-{
-int ind=l->ind_pri_ele;
-while (--pos)
-ind = l->elementos[ind].next;
-return l->elementos[ind].inf;
-}~d
+int main(){
+	return 0;
 }
